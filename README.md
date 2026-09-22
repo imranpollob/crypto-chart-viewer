@@ -1,51 +1,49 @@
 # CryptoView
 
-A cryptocurrency chart viewer powered by the Coinbase API.
+A fast, clean way to watch multiple cryptocurrency charts side-by-side without the clutter. 
+
+👉 **[Live Demo](https://imranpollob.github.io/crypto-chart-viewer/)**
 
 ![Dashboard Preview](screenshot.png)
 
+---
 
-## Features
+## Why I Built This
 
-- **Data Integration**: Fetches live trading pairs directly from the Coinbase Public API.
-- **Search**: Implements fuzzy search prioritization (Exact Match > Prefix Match > Alphabetical).
-- **Interface**: Responsive, dark-themed design with interactive elements.
-- **Charts**: Integrated TradingView widgets with a default 5-minute interval.
-- **Performance**: Utilizes a pre-generated static `tokens.json` list for efficient initial loading, with API fallback.
+Most crypto platforms lock multi-chart layouts behind subscriptions or overload you with noisy feeds. CryptoView is built to be simple, snappy, and focused: pick your coins, choose your layout, and monitor live price action in real time.
 
-## Setup
+## Highlights
 
-1. **Clone the repository**:
-   ```bash
-   git clone <repository-url>
-   cd coins
-   ```
+- **Flexible Grid**: Pick 1, 2, 3, or 4 charts per row on desktop. Automatically stacks into a clean single column on mobile.
+- **Live TradingView Charts**: Real-time candlesticks with default 5-minute intervals and technical indicators.
+- **Coinbase Market Data**: Fast pair search powered by Coinbase Exchange API with smart matching and keyboard navigation (`/` to search).
+- **Theme Switcher**: Dark and light modes that sync with TradingView's chart theme.
+- **Zero Build Step**: Pure HTML5, modern CSS, and vanilla ES modules. No bundlers or heavy dependencies required.
 
-2. **Serve the application**:
-   Due to browser CORS policies regarding local files (for `tokens.json`), the project must be served via a local web server.
+## Getting Started
 
-   **Using Python**:
-   ```bash
-   python3 -m http.server
-   # Open http://localhost:8000
-   ```
+Because browsers restrict loading local JSON files (`tokens.json`) directly from `file://`, run a local static server:
 
-   **Using VS Code Live Server**:
-   - Install the "Live Server" extension.
-   - Right-click `index.html` -> "Open with Live Server".
+```bash
+# 1. Clone the repo
+git clone https://github.com/imranpollob/crypto-chart-viewer.git
+cd crypto-chart-viewer
 
-## Development
+# 2. Start a local server
+python3 -m http.server 8000
+# or: npx serve
+```
 
-- **`generate_tokens.js`**: Node.js script to update the local token list from Coinbase.
-  ```bash
-  node generate_tokens.js
-  ```
-- **`api.js`**: Handles data fetching, caching, and search logic.
-- **`ui.js`**: Manages the DOM, event listeners, and TradingView chart injection.
-- **`style.css`**: Contains styling variables and component styles.
+Then visit `http://localhost:8000` in your browser.
 
-## Technologies
+## Keeping Token Lists Fresh
 
-- Vanilla JavaScript (ES6 Modules)
-- Coinbase API
-- TradingView Lightweight Charts Widget
+To update the cached list of supported Coinbase USD pairs:
+
+```bash
+node generate_tokens.js
+```
+
+---
+
+Made by [Imran Pollob](https://github.com/imranpollob).
