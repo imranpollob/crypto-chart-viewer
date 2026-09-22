@@ -3,6 +3,21 @@
  * Imran Pollob Brand Identity & Multi-Chart Controller
  */
 
+const INTERVAL_LABELS = {
+  '1': '1m',
+  '3': '3m',
+  '5': '5m',
+  '15': '15m',
+  '30': '30m',
+  '45': '45m',
+  '60': '1h',
+  '120': '2h',
+  '180': '3h',
+  '240': '4h',
+  'D': '1D',
+  'W': '1W'
+};
+
 export class UI {
   constructor() {
     this.elements = {
@@ -12,6 +27,13 @@ export class UI {
       selectedTags: document.getElementById('selected-tags'),
       loadingIndicator: document.getElementById('loading-indicator'),
       layoutControl: document.getElementById('layout-control'),
+      gridDropdownBtn: document.getElementById('grid-dropdown-btn'),
+      gridMenu: document.getElementById('grid-menu'),
+      activeGridText: document.getElementById('active-grid-text'),
+      intervalControl: document.getElementById('interval-control'),
+      intervalDropdownBtn: document.getElementById('interval-dropdown-btn'),
+      intervalMenu: document.getElementById('interval-menu'),
+      activeIntervalText: document.getElementById('active-interval-text'),
       themeToggle: document.getElementById('theme-toggle'),
       tagsBar: document.getElementById('tags-bar')
     };
@@ -20,6 +42,7 @@ export class UI {
     this.selectedPairs = JSON.parse(localStorage.getItem('selectedCoords')) || ['BTC/USD', 'ETH/USD'];
     this.chartsPerRow = localStorage.getItem('crypto_chart_cols') || '2';
     this.currentTheme = localStorage.getItem('crypto_theme') || 'dark';
+    this.currentInterval = localStorage.getItem('crypto_chart_interval') || '5';
     this.api = null;
     this.activeSearchIndex = -1;
 
@@ -32,6 +55,11 @@ export class UI {
     this.closeSearch = this.closeSearch.bind(this);
     this.setColumns = this.setColumns.bind(this);
     this.toggleTheme = this.toggleTheme.bind(this);
+    this.toggleGridMenu = this.toggleGridMenu.bind(this);
+    this.closeGridMenu = this.closeGridMenu.bind(this);
+    this.toggleIntervalMenu = this.toggleIntervalMenu.bind(this);
+    this.closeIntervalMenu = this.closeIntervalMenu.bind(this);
+    this.setInterval = this.setInterval.bind(this);
   }
 
   init(api) {
@@ -40,32 +68,70 @@ export class UI {
     // Apply saved theme
     this.applyTheme(this.currentTheme);
 
-    // Apply saved column layout
+    // Apply saved column layout (1 to 8)
     this.setColumns(this.chartsPerRow);
+
+    // Apply saved time interval
+    this.applyInterval(this.currentInterval);
 
     // Search input listeners
     this.elements.searchInput.addEventListener('input', this.handleSearch);
     this.elements.searchInput.addEventListener('focus', this.handleSearch);
     this.elements.searchInput.addEventListener('keydown', this.handleSearchKeydown);
 
-    // Global keyboard shortcut ('/' to focus search)
+    // Global keyboard shortcuts
     document.addEventListener('keydown', (e) => {
       if (e.key === '/' && document.activeElement !== this.elements.searchInput) {
         e.preventDefault();
         this.elements.searchInput.focus();
         this.elements.searchInput.select();
       }
+      if (e.key === 'Escape') {
+        this.closeSearch();
+        this.closeGridMenu();
+        this.closeIntervalMenu();
+      }
     });
 
-    // Layout buttons
-    if (this.elements.layoutControl) {
-      const layoutButtons = this.elements.layoutControl.querySelectorAll('.layout-btn');
-      layoutButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-          const cols = btn.getAttribute('data-cols');
+    // Grid Dropdown Toggle
+    if (this.elements.gridDropdownBtn) {
+      this.elements.gridDropdownBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.toggleGridMenu();
+      });
+    }
+
+    // Grid Menu Items
+    if (this.elements.gridMenu) {
+      this.elements.gridMenu.querySelectorAll('.grid-item').forEach(item => {
+        item.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const cols = item.getAttribute('data-cols');
           if (cols) {
             this.setColumns(cols);
           }
+        });
+      });
+    }
+
+    // Interval Dropdown Toggle
+    if (this.elements.intervalDropdownBtn) {
+      this.elements.intervalDropdownBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.toggleIntervalMenu();
+      });
+    }
+
+    // Interval Menu Selection Items
+    if (this.elements.intervalMenu) {
+      this.elements.intervalMenu.querySelectorAll('.interval-item').forEach(item => {
+        item.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const interval = item.getAttribute('data-interval');
+          if (interval) {
+            this.setInterval(interval);
+          }
+          this.closeIntervalMenu();
         });
       });
     }
@@ -75,10 +141,16 @@ export class UI {
       this.elements.themeToggle.addEventListener('click', this.toggleTheme);
     }
 
-    // Click outside to close search
+    // Click outside to close search and dropdown menus
     document.addEventListener('click', (e) => {
       if (!e.target.closest('.search-container')) {
         this.closeSearch();
+      }
+      if (!e.target.closest('#layout-control')) {
+        this.closeGridMenu();
+      }
+      if (!e.target.closest('#interval-control')) {
+        this.closeIntervalMenu();
       }
     });
 
@@ -125,8 +197,25 @@ export class UI {
     this.renderCharts();
   }
 
+  toggleGridMenu() {
+    this.closeIntervalMenu();
+    if (!this.elements.layoutControl) return;
+    const isOpen = this.elements.layoutControl.classList.toggle('is-open');
+    if (this.elements.gridDropdownBtn) {
+      this.elements.gridDropdownBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    }
+  }
+
+  closeGridMenu() {
+    if (!this.elements.layoutControl) return;
+    this.elements.layoutControl.classList.remove('is-open');
+    if (this.elements.gridDropdownBtn) {
+      this.elements.gridDropdownBtn.setAttribute('aria-expanded', 'false');
+    }
+  }
+
   setColumns(cols) {
-    const validCols = ['1', '2', '3', '4'].includes(cols) ? cols : '2';
+    const validCols = ['1', '2', '3', '4', '5', '6', '7', '8'].includes(cols) ? cols : '2';
     this.chartsPerRow = validCols;
     localStorage.setItem('crypto_chart_cols', validCols);
 
@@ -134,23 +223,70 @@ export class UI {
       this.elements.widgetContainer.setAttribute('data-cols', validCols);
     }
 
-    if (this.elements.layoutControl) {
-      const buttons = this.elements.layoutControl.querySelectorAll('.layout-btn');
-      buttons.forEach(btn => {
-        if (btn.getAttribute('data-cols') === validCols) {
-          btn.classList.add('active');
-          btn.setAttribute('aria-pressed', 'true');
+    if (this.elements.activeGridText) {
+      this.elements.activeGridText.textContent = validCols;
+    }
+
+    if (this.elements.gridMenu) {
+      const items = this.elements.gridMenu.querySelectorAll('.grid-item');
+      items.forEach(item => {
+        if (item.getAttribute('data-cols') === validCols) {
+          item.classList.add('active');
         } else {
-          btn.classList.remove('active');
-          btn.setAttribute('aria-pressed', 'false');
+          item.classList.remove('active');
         }
       });
     }
+
+    this.closeGridMenu();
 
     // Trigger window resize event so TradingView widgets adapt dimensions
     setTimeout(() => {
       window.dispatchEvent(new Event('resize'));
     }, 100);
+  }
+
+  toggleIntervalMenu() {
+    this.closeGridMenu();
+    if (!this.elements.intervalControl) return;
+    const isOpen = this.elements.intervalControl.classList.toggle('is-open');
+    if (this.elements.intervalDropdownBtn) {
+      this.elements.intervalDropdownBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    }
+  }
+
+  closeIntervalMenu() {
+    if (!this.elements.intervalControl) return;
+    this.elements.intervalControl.classList.remove('is-open');
+    if (this.elements.intervalDropdownBtn) {
+      this.elements.intervalDropdownBtn.setAttribute('aria-expanded', 'false');
+    }
+  }
+
+  applyInterval(interval) {
+    this.currentInterval = interval;
+    localStorage.setItem('crypto_chart_interval', interval);
+
+    if (this.elements.activeIntervalText) {
+      this.elements.activeIntervalText.textContent = INTERVAL_LABELS[interval] || interval;
+    }
+
+    if (this.elements.intervalMenu) {
+      this.elements.intervalMenu.querySelectorAll('.interval-item').forEach(item => {
+        if (item.getAttribute('data-interval') === interval) {
+          item.classList.add('active');
+        } else {
+          item.classList.remove('active');
+        }
+      });
+    }
+  }
+
+  setInterval(interval) {
+    if (this.currentInterval !== interval) {
+      this.applyInterval(interval);
+      this.renderCharts();
+    }
   }
 
   handleSearch(e) {
@@ -393,7 +529,7 @@ export class UI {
           new window.TradingView.widget({
             "autosize": true,
             "symbol": symbolForTV,
-            "interval": "5",
+            "interval": this.currentInterval,
             "timezone": "Etc/UTC",
             "theme": currentTheme,
             "style": "1",

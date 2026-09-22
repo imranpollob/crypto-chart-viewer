@@ -393,60 +393,203 @@ input#coin-search:focus+.search-icon {
   flex-shrink: 0;
 }
 
-/* Non-Mobile Row Layout Selector */
+/* Non-Mobile Grid Layout Dropdown Button */
 .layout-control {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius);
-  padding: 0.25rem 0.35rem;
+  position: relative;
 }
 
-.layout-title {
+.grid-dropdown-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.3rem;
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-muted);
-  padding: 0 0.4rem;
-  text-transform: uppercase;
-  letter-spacing: var(--letter-spacing-wide);
-  user-select: none;
-}
-
-.layout-btn-group {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-}
-
-.layout-btn {
-  background: transparent;
-  border: none;
-  color: var(--color-text-muted);
+  gap: 0.45rem;
+  background: var(--color-primary);
+  color: #ffffff;
+  border: 1px solid var(--color-primary);
   font-family: var(--font-family);
   font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-bold);
-  padding: 0.3rem 0.6rem;
-  border-radius: var(--radius-sm);
+  font-weight: var(--font-weight-semibold);
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius);
   cursor: pointer;
-  transition: all 0.15s ease;
-  min-width: 28px;
-  line-height: 1;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+  height: 36px;
+  box-shadow: 0 2px 8px rgba(13, 148, 136, 0.28);
 }
 
-.layout-btn:hover {
+.grid-dropdown-btn:hover,
+.layout-control.is-open .grid-dropdown-btn {
+  background: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+  box-shadow: 0 4px 12px rgba(13, 148, 136, 0.4);
+  transform: translateY(-1px);
+}
+
+.grid-dropdown-btn .chevron-icon {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.layout-control.is-open .chevron-icon {
+  transform: rotate(180deg);
+}
+
+.grid-badge {
+  font-family: var(--font-mono);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-xs);
+  background: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  padding: 0.1rem 0.45rem;
+  border-radius: 4px;
+  min-width: 18px;
+  text-align: center;
+}
+
+/* Grid Dropdown Menu */
+.grid-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  width: 160px;
+  background-color: var(--card-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+  padding: 0.35rem 0;
+  display: none;
+  flex-direction: column;
+  z-index: 1200;
+  animation: fadeIn 0.15s ease;
+}
+
+.layout-control.is-open .grid-menu {
+  display: flex;
+}
+
+.grid-item {
+  padding: 0.55rem 0.95rem;
+  cursor: pointer;
+  font-size: var(--font-size-sm);
   color: var(--color-text);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.grid-item:hover {
+  background-color: var(--hover-bg);
+  color: var(--color-primary);
+}
+
+.grid-item.active {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* ==========================================================================
+   Time Interval Selector Button & Dropdown Menu
+   ========================================================================== */
+
+.interval-control {
+  position: relative;
+}
+
+.interval-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  font-family: var(--font-family);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  padding: 0.35rem 0.65rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+  height: 36px;
+}
+
+.interval-btn:hover,
+.interval-control.is-open .interval-btn {
+  border-color: var(--color-primary);
   background: var(--hover-bg);
 }
 
-.layout-btn.active {
-  background: var(--color-primary);
-  color: #ffffff;
-  box-shadow: 0 2px 6px rgba(13, 148, 136, 0.35);
+.interval-label {
+  color: var(--color-text-muted);
+}
+
+.interval-badge {
+  font-family: var(--font-mono);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-xs);
+  color: var(--color-primary);
+  background: var(--color-primary-light);
+  padding: 0.1rem 0.45rem;
+  border-radius: 4px;
+}
+
+.chevron-icon {
+  color: var(--color-text-muted);
+  transition: transform 0.2s ease;
+}
+
+.interval-control.is-open .chevron-icon {
+  transform: rotate(180deg);
+}
+
+/* Interval Dropdown Menu */
+.interval-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  width: 170px;
+  background-color: var(--card-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+  padding: 0.35rem 0;
+  display: none;
+  flex-direction: column;
+  z-index: 1200;
+  animation: fadeIn 0.15s ease;
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+.interval-control.is-open .interval-menu {
+  display: flex;
+}
+
+/* Section headers (MINUTES, HOURS, DAYS) */
+.interval-section-header {
+  padding: 0.55rem 0.85rem 0.25rem 0.85rem;
+  font-size: 0.68rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.interval-item {
+  padding: 0.5rem 0.85rem;
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.interval-item:hover {
+  background-color: var(--hover-bg);
+  color: var(--color-primary);
+}
+
+.interval-item.active {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
 }
 
 /* Action Icon Buttons (Theme toggle, GitHub link) */
@@ -596,7 +739,7 @@ input#coin-search:focus+.search-icon {
   flex: 1;
 }
 
-/* Dynamic columns applied via data-cols attribute */
+/* Dynamic columns applied via data-cols attribute (1 to 8) */
 .charts-grid[data-cols="1"] {
   grid-template-columns: 1fr;
 }
@@ -613,14 +756,58 @@ input#coin-search:focus+.search-icon {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
+.charts-grid[data-cols="5"] {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.charts-grid[data-cols="6"] {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.charts-grid[data-cols="7"] {
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.charts-grid[data-cols="8"] {
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+}
+
+/* Card height adaptations for dense grids */
+.charts-grid[data-cols="1"] .chart-wrapper {
+  height: 640px;
+}
+
+.charts-grid[data-cols="2"] .chart-wrapper {
+  height: 560px;
+}
+
+.charts-grid[data-cols="3"] .chart-wrapper,
+.charts-grid[data-cols="4"] .chart-wrapper {
+  height: 520px;
+}
+
+.charts-grid[data-cols="5"] .chart-wrapper,
+.charts-grid[data-cols="6"] .chart-wrapper,
+.charts-grid[data-cols="7"] .chart-wrapper,
+.charts-grid[data-cols="8"] .chart-wrapper {
+  height: 440px;
+  min-height: 380px;
+}
+
 /* Responsive fallbacks for wide desktop */
-@media (max-width: 1280px) {
-  .charts-grid[data-cols="4"] {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+@media (max-width: 1400px) {
+
+  .charts-grid[data-cols="8"],
+  .charts-grid[data-cols="7"],
+  .charts-grid[data-cols="6"] {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1100px) {
+
+  .charts-grid[data-cols="5"],
+  .charts-grid[data-cols="4"],
   .charts-grid[data-cols="3"] {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -912,12 +1099,16 @@ input#coin-search:focus+.search-icon {
     display: none !important;
   }
 
-  /* FORCED SINGLE COLUMN ON MOBILE */
+  /* FORCED SINGLE COLUMN ON MOBILE FOR ALL GRID MODES (1 to 8) */
   .charts-grid,
   .charts-grid[data-cols="1"],
   .charts-grid[data-cols="2"],
   .charts-grid[data-cols="3"],
-  .charts-grid[data-cols="4"] {
+  .charts-grid[data-cols="4"],
+  .charts-grid[data-cols="5"],
+  .charts-grid[data-cols="6"],
+  .charts-grid[data-cols="7"],
+  .charts-grid[data-cols="8"] {
     grid-template-columns: 1fr !important;
     padding: 1rem;
     gap: 1rem;

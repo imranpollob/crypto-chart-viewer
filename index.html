@@ -86,9 +86,6 @@
             <span class="brand-title">CryptoView</span>
           </div>
         </a>
-        <span class="live-badge" title="Live market data synced from Coinbase">
-          <span class="status-dot"></span> Coinbase Live
-        </span>
       </div>
 
       <div class="header-center">
@@ -108,25 +105,80 @@
       </div>
 
       <div class="header-right">
-        <!-- Layout Selector: Charts per row (Visible ONLY on non-mobile screens) -->
-        <div class="layout-control" id="layout-control" title="Charts per row (Desktop only)">
-          <span class="layout-title">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+        <!-- Grid Layout Dropdown Button (Visible ONLY on non-mobile screens) -->
+        <div class="layout-control" id="layout-control">
+          <button type="button" class="grid-dropdown-btn" id="grid-dropdown-btn" aria-haspopup="true"
+            aria-expanded="false" title="Charts per row (Desktop only)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <rect x="3" y="3" width="18" height="18" rx="2"></rect>
               <line x1="12" y1="3" x2="12" y2="21"></line>
             </svg>
-            Grid
-          </span>
-          <div class="layout-btn-group" role="group" aria-label="Select charts per row">
-            <button type="button" class="layout-btn" data-cols="1" aria-label="1 chart per row"
-              title="1 chart per row">1</button>
-            <button type="button" class="layout-btn active" data-cols="2" aria-label="2 charts per row"
-              title="2 charts per row">2</button>
-            <button type="button" class="layout-btn" data-cols="3" aria-label="3 charts per row"
-              title="3 charts per row">3</button>
-            <button type="button" class="layout-btn" data-cols="4" aria-label="4 charts per row"
-              title="4 charts per row">4</button>
+            <span>Grid:</span>
+            <span class="grid-badge" id="active-grid-text">2</span>
+            <svg class="chevron-icon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+
+          <div class="grid-menu" id="grid-menu" role="menu" aria-label="Select charts per row">
+            <div class="grid-item" data-cols="1" role="menuitem">1 Chart / Row</div>
+            <div class="grid-item active" data-cols="2" role="menuitem">2 Charts / Row</div>
+            <div class="grid-item" data-cols="3" role="menuitem">3 Charts / Row</div>
+            <div class="grid-item" data-cols="4" role="menuitem">4 Charts / Row</div>
+            <div class="grid-item" data-cols="5" role="menuitem">5 Charts / Row</div>
+            <div class="grid-item" data-cols="6" role="menuitem">6 Charts / Row</div>
+            <div class="grid-item" data-cols="7" role="menuitem">7 Charts / Row</div>
+            <div class="grid-item" data-cols="8" role="menuitem">8 Charts / Row</div>
+          </div>
+        </div>
+
+        <!-- Time Interval Selector Button & Dropdown -->
+        <div class="interval-control" id="interval-control">
+          <button type="button" class="interval-btn" id="interval-dropdown-btn" aria-haspopup="true"
+            aria-expanded="false" title="Change Chart Time Interval">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            <span class="interval-label">Interval:</span>
+            <span class="interval-badge" id="active-interval-text">5m</span>
+            <svg class="chevron-icon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+
+          <!-- Dropdown Menu without stars -->
+          <div class="interval-menu" id="interval-menu" role="menu" aria-label="Select interval">
+            <!-- Minutes Section -->
+            <div class="interval-section-header">
+              <span>MINUTES</span>
+            </div>
+            <div class="interval-item" data-interval="1" data-label="1m" role="menuitem">1 minute</div>
+            <div class="interval-item" data-interval="3" data-label="3m" role="menuitem">3 minutes</div>
+            <div class="interval-item active" data-interval="5" data-label="5m" role="menuitem">5 minutes</div>
+            <div class="interval-item" data-interval="15" data-label="15m" role="menuitem">15 minutes</div>
+            <div class="interval-item" data-interval="30" data-label="30m" role="menuitem">30 minutes</div>
+            <div class="interval-item" data-interval="45" data-label="45m" role="menuitem">45 minutes</div>
+
+            <!-- Hours Section -->
+            <div class="interval-section-header">
+              <span>HOURS</span>
+            </div>
+            <div class="interval-item" data-interval="60" data-label="1h" role="menuitem">1 hour</div>
+            <div class="interval-item" data-interval="120" data-label="2h" role="menuitem">2 hours</div>
+            <div class="interval-item" data-interval="180" data-label="3h" role="menuitem">3 hours</div>
+            <div class="interval-item" data-interval="240" data-label="4h" role="menuitem">4 hours</div>
+
+            <!-- Days Section -->
+            <div class="interval-section-header">
+              <span>DAYS</span>
+            </div>
+            <div class="interval-item" data-interval="D" data-label="1D" role="menuitem">1 day</div>
+            <div class="interval-item" data-interval="W" data-label="1W" role="menuitem">1 week</div>
           </div>
         </div>
 
