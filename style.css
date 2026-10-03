@@ -620,6 +620,36 @@ input#coin-search:focus+.search-icon {
   height: 18px;
 }
 
+/* Brand tools launcher toggle — matches .icon-btn exactly */
+.header-right .bl-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.header-right .bl-toggle:hover,
+.header-right .bl-toggle[aria-expanded="true"] {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+  background: var(--hover-bg);
+  transform: translateY(-1px);
+}
+
+.header-right .bl-toggle svg {
+  width: 18px;
+  height: 18px;
+}
+
 /* Loading Indicator */
 .loading {
   display: flex;
