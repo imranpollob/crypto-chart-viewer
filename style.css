@@ -401,32 +401,25 @@ input#coin-search:focus+.search-icon {
 .grid-dropdown-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
-  background: var(--color-primary);
-  color: #ffffff;
-  border: 1px solid var(--color-primary);
+  gap: 0.4rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
   font-family: var(--font-family);
   font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-semibold);
-  padding: 0.35rem 0.75rem;
+  font-weight: var(--font-weight-medium);
+  padding: 0.35rem 0.65rem;
   border-radius: var(--radius);
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.15s ease;
   user-select: none;
   height: 36px;
-  box-shadow: 0 2px 8px rgba(13, 148, 136, 0.28);
 }
 
 .grid-dropdown-btn:hover,
 .layout-control.is-open .grid-dropdown-btn {
-  background: var(--color-primary-hover);
-  border-color: var(--color-primary-hover);
-  box-shadow: 0 4px 12px rgba(13, 148, 136, 0.4);
-  transform: translateY(-1px);
-}
-
-.grid-dropdown-btn .chevron-icon {
-  color: rgba(255, 255, 255, 0.85);
+  border-color: var(--color-primary);
+  background: var(--hover-bg);
 }
 
 .layout-control.is-open .chevron-icon {
@@ -437,8 +430,8 @@ input#coin-search:focus+.search-icon {
   font-family: var(--font-mono);
   font-weight: var(--font-weight-bold);
   font-size: var(--font-size-xs);
-  background: rgba(255, 255, 255, 0.25);
-  color: #ffffff;
+  color: var(--color-primary);
+  background: var(--color-primary-light);
   padding: 0.1rem 0.45rem;
   border-radius: 4px;
   min-width: 18px;
@@ -517,7 +510,8 @@ input#coin-search:focus+.search-icon {
   background: var(--hover-bg);
 }
 
-.interval-label {
+.interval-label,
+.grid-label {
   color: var(--color-text-muted);
 }
 
@@ -592,7 +586,7 @@ input#coin-search:focus+.search-icon {
   font-weight: var(--font-weight-semibold);
 }
 
-/* Action Icon Buttons (Theme toggle, GitHub link) */
+/* Action Icon Buttons (Theme toggle) */
 .icon-btn {
   display: inline-flex;
   align-items: center;
@@ -1002,7 +996,7 @@ input#coin-search:focus+.search-icon {
   border-top: 1px solid var(--color-border);
   background: var(--glass-bg);
   backdrop-filter: blur(8px);
-  padding: 1.25rem 1.75rem;
+  padding: 0.7rem 1.75rem;
   font-size: var(--font-size-xs);
   color: var(--color-text-muted);
 }
@@ -1024,6 +1018,11 @@ input#coin-search:focus+.search-icon {
   font-weight: var(--font-weight-medium);
 }
 
+.footer-brand strong {
+  color: var(--color-text);
+  font-weight: var(--font-weight-semibold);
+}
+
 .footer-logo {
   border-radius: 4px;
 }
@@ -1035,16 +1034,24 @@ input#coin-search:focus+.search-icon {
   flex-wrap: wrap;
 }
 
-.footer-meta a {
-  color: var(--color-primary);
-  text-decoration: none;
-  font-weight: var(--font-weight-semibold);
+.footer-meta .footer-github {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem;
+  color: var(--color-text-muted);
+  border-radius: var(--radius-sm);
   transition: color 0.15s ease;
 }
 
-.footer-meta a:hover {
-  text-decoration: underline;
-  color: var(--color-primary-hover);
+.footer-meta .footer-github:hover {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.footer-github svg {
+  display: block;
+  width: 16px;
+  height: 16px;
 }
 
 /* ==========================================================================
